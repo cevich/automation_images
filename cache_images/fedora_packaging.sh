@@ -18,6 +18,8 @@ source "$REPO_DIRPATH/lib.sh"
 # for both VM and container image build workflows.
 req_env_vars PACKER_BUILD_NAME
 
+### Disabled 3/11/21 due to suspected updates-testing repo. incongruities
+### This can be reverted once F34 is released.
 # Do not enable updates-testing on the 'prior' Fedora release images
 # as a matter of general policy.  Historically there have been many
 # problems with non-uniform behavior when both supported Fedora releases
@@ -25,13 +27,13 @@ req_env_vars PACKER_BUILD_NAME
 # the 'prior' release has the shortest support lifetime, keep it's behavior
 # stable by only using released updates.
 # shellcheck disable=SC2154
-if [[ ! "$PACKER_BUILD_NAME" =~ prior ]]; then
-    warn "Enabling updates-testing repository for $PACKER_BUILD_NAME"
-    lilto ooe.sh $SUDO dnf install -y 'dnf-command(config-manager)'
-    lilto ooe.sh $SUDO dnf config-manager --set-enabled updates-testing
-else
+#if [[ ! "$PACKER_BUILD_NAME" =~ prior ]]; then
+#    warn "Enabling updates-testing repository for $PACKER_BUILD_NAME"
+#    lilto ooe.sh $SUDO dnf install -y 'dnf-command(config-manager)'
+#    lilto ooe.sh $SUDO dnf config-manager --set-enabled updates-testing
+#else
     warn "NOT enabling updates-testing repository for $PACKER_BUILD_NAME"
-fi
+#fi
 
 msg "Updating/Installing repos and packages for $OS_REL_VER"
 
